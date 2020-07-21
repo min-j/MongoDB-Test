@@ -3,8 +3,9 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-# from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo
 
+# epa0r89txUF9HQLb admin password
 
 # -- Initialization section --
 app = Flask(__name__)
@@ -13,13 +14,16 @@ events = [
         {"event":"First Day of Classes", "date":"2019-08-21"},
         {"event":"Winter Break", "date":"2019-12-20"},
         {"event":"Finals Begin", "date":"2019-12-01"}
+        {"event": "Project Presentation", "date": "2020-07-31"}
     ]
 
 # name of database
-# app.config['MONGO_DBNAME'] = 'database-name'
+app.config['MONGO_DBNAME'] = 'test'
 
 # URI of database
 # app.config['MONGO_URI'] = 'mongo-uri'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:epa0r89txUF9HQLb@cluster0.80lh6.mongodb.net/test?retryWrites=true&w=majority'
+
 
 # mongo = PyMongo(app)
 

@@ -4,6 +4,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask_pymongo import PyMongo
+from flask import redirect
 
 # epa0r89txUF9HQLb admin password
 
@@ -32,15 +33,17 @@ mongo = PyMongo(app)
 
 @app.route('/')
 @app.route('/index')
-
 def index():
+    # Connect to the database
+    collection = mongo.db.events
+    # Limit the amount of responses that you see (can be any amount)
+    events = collection.find({})
+    # return data to user
     return render_template('index.html', events = events)
-
 
 # CONNECT TO DB, ADD DATA
 
 @app.route('/add')
-
 def add():
     # connect to the database
     collections = mongo.db.events
@@ -50,3 +53,17 @@ def add():
     print(my_events)
     # return a message to the user
     return "Event added successfully."
+
+@app.route('/events/new', methods=['GET','POST'])
+def new_event():
+    if request.method == "GET":
+        return render_template('new_events.html')
+    else: 
+        event_name = request.form["event_name"]
+        event_date = request.form["event_date"]
+        user_name = request.form['user_name']
+        # Connect to a database
+        events = mongo.db.events
+        # Add to the data base
+        events.insert({'event': event_name, "date": event_date, "user": user_name})
+        # return redirect('/')
